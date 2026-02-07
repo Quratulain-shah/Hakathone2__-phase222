@@ -1,0 +1,214 @@
+# API Contract: Todo App Backend - Task Management
+
+## Overview
+This document defines the REST API contract for task management in the Todo App backend.
+
+## Base URL
+```
+/api/v1/{user_id}/tasks
+```
+
+## Authentication
+All endpoints require authentication. In Phase 2, authentication is mocked but the structure is in place for JWT integration in the next phase.
+
+## Common Error Format
+All error responses follow this structure:
+```json
+{
+  "code": "string",
+  "message": "string",
+  "details": "object (optional)"
+}
+```
+
+## Endpoints
+
+### GET /api/v1/{user_id}/tasks
+**Description**: List all tasks for a specific user
+
+**Path Parameters**:
+- `user_id` (integer): The ID of the user whose tasks to retrieve
+
+**Query Parameters**: None
+
+**Request Body**: None
+
+**Success Response**:
+- Code: `200 OK`
+- Content-Type: `application/json`
+- Body:
+```json
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "title": "string",
+    "description": "string (nullable)",
+    "completed": false,
+    "created_at": "2023-01-01T00:00:00Z",
+    "updated_at": "2023-01-01T00:00:00Z"
+  }
+]
+```
+
+**Error Responses**:
+- `403 Forbidden`: User ID does not match authenticated user
+- `422 Unprocessable Entity`: Invalid user_id format
+
+### POST /api/v1/{user_id}/tasks
+**Description**: Create a new task
+
+**Path Parameters**:
+- `user_id` (integer): The ID of the user creating the task
+
+**Request Body**:
+```json
+{
+  "title": "string (required, 1-200 chars)",
+  "description": "string (optional, 0-1000 chars)"
+}
+```
+
+**Success Response**:
+- Code: `201 Created`
+- Content-Type: `application/json`
+- Body:
+```json
+{
+  "id": 1,
+  "user_id": 1,
+  "title": "string",
+  "description": "string (nullable)",
+  "completed": false,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-01T00:00:00Z"
+}
+```
+
+**Error Responses**:
+- `400 Bad Request`: Invalid input data
+- `403 Forbidden`: User ID does not match authenticated user
+- `422 Unprocessable Entity`: Validation error
+
+### GET /api/v1/{user_id}/tasks/{id}
+**Description**: Get a specific task
+
+**Path Parameters**:
+- `user_id` (integer): The ID of the user
+- `id` (integer): The ID of the task to retrieve
+
+**Request Body**: None
+
+**Success Response**:
+- Code: `200 OK`
+- Content-Type: `application/json`
+- Body:
+```json
+{
+  "id": 1,
+  "user_id": 1,
+  "title": "string",
+  "description": "string (nullable)",
+  "completed": false,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-01T00:00:00Z"
+}
+```
+
+**Error Responses**:
+- `403 Forbidden`: User ID does not match authenticated user
+- `404 Not Found`: Task does not exist
+- `422 Unprocessable Entity`: Invalid ID format
+
+### PUT /api/v1/{user_id}/tasks/{id}
+**Description**: Update a specific task completely
+
+**Path Parameters**:
+- `user_id` (integer): The ID of the user
+- `id` (integer): The ID of the task to update
+
+**Request Body**:
+```json
+{
+  "title": "string (required, 1-200 chars)",
+  "description": "string (optional, 0-1000 chars)",
+  "completed": boolean
+}
+```
+
+**Success Response**:
+- Code: `200 OK`
+- Content-Type: `application/json`
+- Body:
+```json
+{
+  "id": 1,
+  "user_id": 1,
+  "title": "string",
+  "description": "string (nullable)",
+  "completed": false,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-01T00:00:00Z"
+}
+```
+
+**Error Responses**:
+- `400 Bad Request`: Invalid input data
+- `403 Forbidden`: User ID does not match authenticated user
+- `404 Not Found`: Task does not exist
+- `422 Unprocessable Entity`: Validation error
+
+### PATCH /api/v1/{user_id}/tasks/{id}
+**Description**: Partially update a specific task
+
+**Path Parameters**:
+- `user_id` (integer): The ID of the user
+- `id` (integer): The ID of the task to update
+
+**Request Body**:
+```json
+{
+  "title": "string (optional, 1-200 chars)",
+  "description": "string (optional, 0-1000 chars)",
+  "completed": boolean (optional)
+}
+```
+
+**Success Response**:
+- Code: `200 OK`
+- Content-Type: `application/json`
+- Body:
+```json
+{
+  "id": 1,
+  "user_id": 1,
+  "title": "string",
+  "description": "string (nullable)",
+  "completed": false,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-01T00:00:00Z"
+}
+```
+
+**Error Responses**:
+- `400 Bad Request`: Invalid input data
+- `403 Forbidden`: User ID does not match authenticated user
+- `404 Not Found`: Task does not exist
+- `422 Unprocessable Entity`: Validation error
+
+### DELETE /api/v1/{user_id}/tasks/{id}
+**Description**: Delete a specific task
+
+**Path Parameters**:
+- `user_id` (integer): The ID of the user
+- `id` (integer): The ID of the task to delete
+
+**Request Body**: None
+
+**Success Response**:
+- Code: `204 No Content`
+
+**Error Responses**:
+- `403 Forbidden`: User ID does not match authenticated user
+- `404 Not Found`: Task does not exist
+- `422 Unprocessable Entity`: Invalid ID format
