@@ -9,7 +9,10 @@ from sqlalchemy.pool import StaticPool
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
-from backend.config import settings
+try:
+    from config import settings
+except ImportError:
+    from backend.config import settings
 
 # Create async engine for the database
 # For SQLite, use StaticPool and disable some pooling features
@@ -42,8 +45,12 @@ async def create_db_and_tables():
     This is primarily for testing purposes in Phase 2
     """
     try:
-        from backend.models.user import User  # Import to register the model
-        from backend.models.task import Task  # Import to register the model
+        try:
+            from models.user import User  # Import to register the model
+            from models.task import Task  # Import to register the model
+        except ImportError:
+            from backend.models.user import User
+            from backend.models.task import Task
 
         async with async_engine.begin() as conn:
             await conn.run_sync(SQLModel.metadata.create_all)

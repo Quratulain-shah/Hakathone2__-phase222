@@ -6,10 +6,16 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
 
-from backend.dependencies import get_db_session
-from backend.models.user import User, UserCreate, UserLogin, Token, UserRead
-from backend.utils import verify_password, get_password_hash, create_access_token
-from backend.config import settings
+try:
+    from dependencies import get_db_session
+    from models.user import User, UserCreate, UserLogin, Token, UserRead
+    from utils import verify_password, get_password_hash, create_access_token
+    from config import settings
+except ImportError:
+    from backend.dependencies import get_db_session
+    from backend.models.user import User, UserCreate, UserLogin, Token, UserRead
+    from backend.utils import verify_password, get_password_hash, create_access_token
+    from backend.config import settings
 
 
 # Create API router for auth endpoints

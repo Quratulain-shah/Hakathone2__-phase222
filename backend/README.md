@@ -1,8 +1,25 @@
+---
+title: Todo App Backend API
+emoji: 📝
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+license: mit
+---
+
 # Todo App Backend API
 
-This is the backend API for the Todo App Phase 2, providing secure user-isolated CRUD endpoints for task management.
+FastAPI backend for the Todo App with JWT authentication.
 
-## Setup
+## Features
+
+- User registration and authentication (JWT)
+- CRUD operations for tasks
+- PostgreSQL database (Neon Serverless)
+- Async/await support
+
+## Setup (Local Development)
 
 1. Install dependencies:
    ```bash
@@ -22,13 +39,28 @@ This is the backend API for the Todo App Phase 2, providing secure user-isolated
 
 ## API Endpoints
 
-The API provides the following endpoints under `/api/v1/{user_id}/tasks`:
-- `GET /` - List user tasks
-- `POST /` - Create task
-- `GET /{id}` - Get single task
-- `PUT /{id}` - Full update task
-- `PATCH /{id}` - Partial update task
-- `DELETE /{id}` - Delete task
+### Authentication
+- `POST /api/v1/register` - Register a new user
+- `POST /api/v1/login` - Login and get JWT token
+- `GET /api/v1/me` - Get current user info
+
+### Tasks
+- `GET /api/v1/{user_id}/tasks` - List user's tasks
+- `POST /api/v1/{user_id}/tasks` - Create a task
+- `GET /api/v1/{user_id}/tasks/{task_id}` - Get a task
+- `PUT /api/v1/{user_id}/tasks/{task_id}` - Update a task
+- `DELETE /api/v1/{user_id}/tasks/{task_id}` - Delete a task
+
+## Hugging Face Deployment
+
+Set these as **Secrets** in your Hugging Face Space settings:
+
+- `DATABASE_URL` - PostgreSQL connection string (e.g., Neon)
+- `SECRET_KEY` - JWT secret key for token signing
+
+## API Documentation
+
+Visit `/api/v1/docs` for Swagger UI documentation.
 
 ## Architecture
 

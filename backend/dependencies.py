@@ -7,9 +7,14 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
 
-from backend.database import async_engine
-from backend.models.user import User
-from backend.utils import verify_token
+try:
+    from database import async_engine
+    from models.user import User
+    from utils import verify_token
+except ImportError:
+    from backend.database import async_engine
+    from backend.models.user import User
+    from backend.utils import verify_token
 
 
 # OAuth2 scheme for JWT token

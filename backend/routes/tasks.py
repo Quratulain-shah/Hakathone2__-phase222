@@ -6,10 +6,16 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
 
-from backend.dependencies import get_db_session, validate_user_id_match, get_user_id_from_token
-from backend.models.task import Task
-from backend.schemas.task import TaskCreate, TaskRead, TaskListResponse, TaskUpdate
-from backend.models.user import User
+try:
+    from dependencies import get_db_session, validate_user_id_match, get_user_id_from_token
+    from models.task import Task
+    from schemas.task import TaskCreate, TaskRead, TaskListResponse, TaskUpdate
+    from models.user import User
+except ImportError:
+    from backend.dependencies import get_db_session, validate_user_id_match, get_user_id_from_token
+    from backend.models.task import Task
+    from backend.schemas.task import TaskCreate, TaskRead, TaskListResponse, TaskUpdate
+    from backend.models.user import User
 
 
 # Create API router for task endpoints

@@ -6,13 +6,23 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import sys
 
-# Add the parent directory to the path so we can import modules correctly
+# Add the current directory to the path for both local and HF deployment
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Also add parent directory for local development with `backend.` imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from backend.config import settings
-from backend.database import create_db_and_tables
-from backend.routes import tasks
-from backend.routes import auth
+try:
+    # Try relative imports first (for HF deployment)
+    from config import settings
+    from database import create_db_and_tables
+    from routes import tasks
+    from routes import auth
+except ImportError:
+    # Fall back to absolute imports (for local development)
+    from backend.config import settings
+    from backend.database import create_db_and_tables
+    from backend.routes import tasks
+    from backend.routes import auth
 
 
 # Create FastAPI application instance
@@ -58,4 +68,5 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

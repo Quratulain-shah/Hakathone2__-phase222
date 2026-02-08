@@ -6,7 +6,10 @@ from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from backend.config import settings
+try:
+    from config import settings
+except ImportError:
+    from backend.config import settings
 
 
 # Password hashing context - using pbkdf2 instead of bcrypt for Windows compatibility
