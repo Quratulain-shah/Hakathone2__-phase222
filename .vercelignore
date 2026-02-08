@@ -1,0 +1,4 @@
+echo "*" > .vercelignore
+echo "!frontend/" >> .vercelignore
+echo "frontend/.next" >> .vercelignore
+echo "frontend/node_modules" >> .vercelignore
