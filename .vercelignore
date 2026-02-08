@@ -1,4 +1,14 @@
-echo "*" > .vercelignore
-echo "!frontend/" >> .vercelignore
-echo "frontend/.next" >> .vercelignore
-echo "frontend/node_modules" >> .vercelignore
+{
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "frontend/$1"
+    }
+  ]
+}
